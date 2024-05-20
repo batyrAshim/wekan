@@ -336,9 +336,13 @@ paths:
     get:
       operationId: exportJson
       summary: This route is used to export a attachement to a json file format.
-      description: |
-        If user is already logged-in, pass loginToken as param
-         "authToken": '/api/boards/:boardId/attachments/:attachmentId/export?authToken=:token'
+      # description: |
+      #   If user is already logged-in, pass loginToken as param
+      #    "authToken": '/api/boards/:boardId/attachments/:attachmentId/export?authToken=:token'
+
+      # изменено batyr ashim 12:29 20.05.2024
+      description: "If user is already logged-in, pass loginToken as param 'authToken': '/api/boards/:boardId/attachments/:attachmentId/export?authToken=:token'"
+
       tags:
         - Boards
       parameters:
