@@ -7673,13 +7673,15 @@ var DayGrid = /** @class */ (function (_super) {
                 if (segsBelow.length) {
                     td = cellMatrix[levelLimit - 1][col];
                     moreLink = _this.renderMoreLink(row, col, segsBelow);
-                    moreWrap = $('<div>').append(moreLink);
+                    // Batyr Ashim 21.05.2024 9:33
+                    moreWrap = $('<div>').append(document.createTextNode(moreLink)); 
                     td.append(moreWrap);
                     moreNodes.push(moreWrap[0]);
                 }
                 col++;
             }
         };
+        
         if (levelLimit && levelLimit < rowStruct.segLevels.length) { // is it actually over the limit?
             levelSegs = rowStruct.segLevels[levelLimit - 1];
             cellMatrix = rowStruct.cellMatrix;
@@ -7698,24 +7700,24 @@ var DayGrid = /** @class */ (function (_super) {
                     totalSegsBelow += segsBelow.length;
                     col++;
                 }
-                if (totalSegsBelow) { // do we need to replace this segment with one or many "more" links?
-                    td = cellMatrix[levelLimit - 1][seg.leftCol]; // the segment's parent cell
+                if (totalSegsBelow) {
+                    td = cellMatrix[levelLimit - 1][seg.leftCol];
                     rowspan = td.attr('rowspan') || 1;
                     segMoreNodes = [];
-                    // make a replacement <td> for each column the segment occupies. will be one for each colspan
                     for (j = 0; j < colSegsBelow.length; j++) {
                         moreTd = $('<td class="fc-more-cell">').attr('rowspan', rowspan);
                         segsBelow = colSegsBelow[j];
-                        moreLink = this.renderMoreLink(row, seg.leftCol + j, [seg].concat(segsBelow) // count seg as hidden too
-                        );
-                        moreWrap = $('<div>').append(moreLink);
+                        moreLink = this.renderMoreLink(row, seg.leftCol + j, [seg].concat(segsBelow));
+                        // Batyr Ashim 21.05.2024 9:36
+                        moreWrap = $('<div>').text(moreLink); 
                         moreTd.append(moreWrap);
                         segMoreNodes.push(moreTd[0]);
                         moreNodes.push(moreTd[0]);
                     }
-                    td.addClass('fc-limited').after($(segMoreNodes)); // hide original <td> and inject replacements
+                    td.addClass('fc-limited').after($(segMoreNodes));
                     limitedNodes.push(td[0]);
                 }
+                
             }
             emptyCellsUntil(this.colCnt); // finish off the level
             rowStruct.moreEls = $(moreNodes); // for easy undoing later

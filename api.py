@@ -18,7 +18,9 @@ except ImportError:
 import json
 import requests
 import sys
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 arguments = len(sys.argv) - 1
 
 syntax = """=== Wekan API Python CLI: Shows IDs for addcard ===
@@ -77,8 +79,8 @@ if arguments == 0:
 # OIDC/OAuth2 etc uses email address as username.
 
 username = 'testtest'
-
-password = 'testtest'
+# batyr ashim 21.05.2024 10:22
+password = os.getenv("PASSWORD")
 
 wekanurl = 'http://localhost:4000/'
 
@@ -164,7 +166,7 @@ allusers = wekanurl + apiallusers
 # ------- LOGIN TOKEN START -----------
 
 data = {"username": username, "password": password}
-body = requests.post(wekanloginurl, json=)
+body = requests.post(wekanloginurl, json=)\
 d = body.json()
 apikey = d['token']
 
