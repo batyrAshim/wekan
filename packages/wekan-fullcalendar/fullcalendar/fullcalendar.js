@@ -635,7 +635,9 @@ function durationHasTime(dur) {
 }
 exports.durationHasTime = durationHasTime;
 function isNativeDate(input) {
+    // Batyr Ashim 22.05.2024
     return Object.prototype.toString.call(input) === '[object Date]' || input instanceof Date;
+
 }
 exports.isNativeDate = isNativeDate;
 // Returns a boolean about whether the given input is a time string, like "06:40:00" or "06:00"
@@ -7473,9 +7475,11 @@ var DayGrid = /** @class */ (function (_super) {
             // because they rely on the locale's dow (possibly overridden by
             // our firstDay option), which may not be Monday. We cannot change
             // dow, because that would affect the calendar start day as well.
-            if (date._locale._fullCalendar_weekCalc === 'ISO') {
+            // Batyr Ashim 22.05.2024
+            if (date._locale && date._locale._fullCalendar_weekCalc === 'ISO') {
                 weekCalcFirstDoW = 1; // Monday by ISO 8601 definition
             }
+            
             else {
                 weekCalcFirstDoW = date._locale.firstDayOfWeek();
             }
@@ -7485,10 +7489,11 @@ var DayGrid = /** @class */ (function (_super) {
                 ' data-date="' + date.format() + '"' :
                 '') +
             '>';
-        if (this.cellWeekNumbersVisible && (date.day() === weekCalcFirstDoW)) {
-            html += view.buildGotoAnchorHtml({ date: date, type: 'week' }, { 'class': 'fc-week-number' }, date.format('w') // inner HTML
-            );
-        }
+            // Batyr Ashim 22.05.2024
+            if (this.cellWeekNumbersVisible && date.day() === weekCalcFirstDoW) {
+                html += view.buildGotoAnchorHtml({ date: date, type: 'week' }, { 'class': 'fc-week-number' }, date.format('w'));
+            }
+            
         if (isDayNumberVisible) {
             html += view.buildGotoAnchorHtml(date, { 'class': 'fc-day-number' }, date.format('D') // inner HTML
             );
